@@ -18,11 +18,11 @@ Suppose 10 bytes key and 100 bytes value, on average PC, random read/write can b
 
 ## The Design
 ![BigCache Design](https://raw.githubusercontent.com/ctriposs/bigcache/master/doc/bigcache.png)
-### Design Essentials
+#### Design Essentials
 1. Keys are stored on JVM heap memory(ConcurrentHashMap).
-2. Values are stored on fix sized block, block can be pure file block, memory mapped file block or offheap block, see ***Configuration section*** for storage Mode configuration.
+2. Values are stored on fix sized block, block can be pure file block, memory mapped file block or offheap block, see ***Configuration section*** for storage Mode configuration. 
 3. There are two background threads, ***CleanerThread*** periodically cleans expired Key/Values, ***MoverThread*** periodically moves Key/Values out of blocks in low usage rate(because of expiration or deletion), then returns the freed block to Free Block Pool.
-4. For optimization, update operation will reuse orinial space if possible, and stripped write/read lock is leveraged for better concurrency.
+4. For optimization, update operation will reuse original space if possible, and stripped write/read lock is leveraged for better concurrency.
 
 
 ## How to Use
@@ -30,13 +30,13 @@ Suppose 10 bytes key and 100 bytes value, on average PC, random read/write can b
 ## Configuration
 You can configure BigCache via [CacheConfig](https://raw.githubusercontent.com/ctriposs/bigcache/master/src/main/java/com/ctriposs/bigcache/CacheConfig.java) object.
 
-### 1. storageMode 
+#### 1. storageMode 
 Three storage modes are supported:
 > **Pure file**, all value data is persisted on disk file, this is the ***default***.    
 > **Memory Mapped file + Pure file**, inital data is stored on memory mapped file, when configured ***maxOffHeapMemorySize*** is used up, more data will be persisted on disk file.    
 > **Offheap Memory + Pure file**, inital data is stored on offheap memory, when configured maxOffHeapMemorySize is usded up, more data will be persisted to disk file.       
 
-### 2. maxOffHeapMemorySize 
+#### 2. maxOffHeapMemorySize 
 How much offheap memory size will be used for inital value data storage, when configured offheap memory is used up, more data will be persisted to disk. No effect when the storageMode is ***Pure file***. Unit:bytes, ***default is 2 * 1024 * 1024 * 1024 = 2GB***.
 
 ##Copyright and License
