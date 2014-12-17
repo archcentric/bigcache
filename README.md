@@ -10,7 +10,7 @@ Basically there is no limit how much value data can be stored as long as you hav
 1. **Big**: when configured offheap memory is used up, more data will be persisted to disk, no data eviction issue like Memcached.
 2. **High Read/Write Performance**: average read/write performance close to O(1) memory access, worst read/write performance close to O(1) disk access, tailored for caching/session data scenarios.
 3. **Thread Safe**: supporting multi-threads concurrent access.
-4. **Compaction**: automation expired and deleted data cleanup, automatic free space compaction, avoiding memory and disk space waste.
+4. **Expiration & Compaction**: automation expired and deleted data cleanup, automatic free space compaction, avoiding memory and disk space waste.
 5. **Light in Desigin & Implementation**: simple Map like interface, only support Get/Put/Delete operations, cross platform Java based, small codebase size, embeddable.
 
 # Performance Highlight:
@@ -21,6 +21,8 @@ Suppose 10 bytes key and 100 bytes value, on average PC, random read/write can b
 ## How to Use
 
 ## Configuration
+You can configure BigCache via [CacheConfig](https://raw.githubusercontent.com/ctriposs/bigcache/master/src/main/java/com/ctriposs/bigcache/CacheConfig.java) object.
+
 ### 1. storageMode 
 Three storage modes are supported:
 > **Pure file**, all value data is persisted on disk file, this is the ***default***.    
