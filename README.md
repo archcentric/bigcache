@@ -27,6 +27,84 @@ Suppose 10 bytes key and 100 bytes value, on average PC, random read/write can b
 
 ## How to Use
 
+* Direct jar or source reference
+
+Download jar from repository mentioned in version history section below, latest stable release is [1.0.1](https://github.com/ctriposs/ctriposs-repo/tree/master/repository/com/ctriposs/bigcache/bigcache/1.0.1).
+
+* Maven dependency
+
+```xml
+    <dependency>
+      <groupId>com.ctriposs.bigcache</groupId>
+      <artifactId>bigcache</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+	<repository>
+	  <id>github.ctriposs.repo</id>
+	  <url>https://raw.githubusercontent.com/ctriposs/ctriposs-repo/master/repository/</url>
+	</repository>
+```
+
+* Sample Usage
+
+```java
+
+    	ICache<String> cache = null;
+    	
+        try {
+        	
+        	// new BigCache with provided cache directory
+        	CacheConfig config = new CacheConfig();
+        	config.setStorageMode(StorageMode.OffHeapPlusFile); // use offheap memory + file mode
+            cache = new BigCache<String>(cacheDir, config);
+        	
+	        // put key/value into the cache
+	        cache.put("helloKey", "helloValue".getBytes());
+	        // get value from the cache by key
+	        byte[] valueBytes = cache.get("helloKey");
+	        
+	        System.out.println("value for helloKey is " + new String(valueBytes));
+	        
+	        // delete key/value from cache by key
+	        cache.delete("helloKey");
+	        
+	        // get non-exiting or already deleted key/value will get null value
+	        valueBytes = cache.get("helloKey");
+	        if (valueBytes == null) {
+	        	System.out.println("helloKey has been deleted");
+	        }
+	        
+	        
+	        // put more key/value pairs
+	        for(int i = 0; i < 1024; i++) {
+	        	cache.put("key" + i, ("value" + i).getBytes());
+	        }
+	        
+	        // get more key/value pairs
+	        for(int i = 0; i < 1024; i++) {
+	        	valueBytes = cache.get("key" + i);
+	        	System.out.println(new String(valueBytes));
+	        }
+	        
+        } catch (Exception e) {
+        	e.printStackTrace();
+        } finally {
+            // make sure you close the cache to avoid possible resource leaking.
+            try {
+    			cache.close();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        }
+```
+
+See sample maven project [here](https://github.com/ctriposs/bigcache/tree/master/sample/hello). 
+
+For simple usage, please refer to source [HelloSessDB.java](https://raw.githubusercontent.com/ctriposs/bigcache/master/sample/hello/src/main/java/com/ctriposs/bigcache/sample/HelloBigCache.java).
+
+For advanced usage involving serialization, multi-threading, huge amount of key/value pairs(>1,000,000), please refer to source [BigCachePerfTest.java](https://raw.githubusercontent.com/ctriposs/bigcache/master/sample/hello/src/test/java/com/ctriposs/bigcache/sample/BigCachePerfTest.java).
+
+
 ## Configuration
 You can configure BigCache via [CacheConfig](https://raw.githubusercontent.com/ctriposs/bigcache/master/src/main/java/com/ctriposs/bigcache/CacheConfig.java) object.
 
