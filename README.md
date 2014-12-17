@@ -3,7 +3,7 @@
 A big, fast cache.
 
 BigCache stores keys on JVM heap memory, value data on Offheap memory first, when configured Offheap memory size is used up, more value data will be persisted to disk file.
-Basically there is no limit how much value data can be stored as long as you have enough disk space, this is why we name it BigCache, however, since BigCache still use JVM heap memory to store keys, in practice, BigCache is suitable for scenario where the number of keys is less than 10 million while value data are much larger than keys.
+Basically there is no limit how much value data can be stored as long as you have enough disk space, this is why we name it BigCache, however, since BigCache still use JVM heap memory to store keys, in practice, BigCache is suitable for scenario where the number of keys is less than 20 million while value data are much larger than keys.
 
  
 # Feature Highlight:
