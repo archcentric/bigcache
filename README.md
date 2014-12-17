@@ -17,6 +17,8 @@ Basically there is no limit how much value data can be stored as long as you hav
 Suppose 10 bytes key and 100 bytes value, on average PC, random read/write can be **> 500,000** ops/sec.
 
 ## The Design
+![BigCache Design](https://raw.githubusercontent.com/ctriposs/bigcache/master/doc/bigcache.png)
+
 
 ## How to Use
 
