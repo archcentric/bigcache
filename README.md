@@ -18,6 +18,11 @@ Suppose 10 bytes key and 100 bytes value, on average PC, random read/write can b
 
 ## The Design
 ![BigCache Design](https://raw.githubusercontent.com/ctriposs/bigcache/master/doc/bigcache.png)
+### Design Essentials
+1. Keys are stored on JVM heap memory(ConcurrentHashMap).
+2. Values are stored on fix sized block, block can be pure file block, memory mapped file block or offheap block, see ***Configuration section*** for storage Mode configuration.
+3. There are two background threads, ***CleanerThread*** periodically cleans expired Key/Values, ***MoverThread*** periodically moves Key/Values out of blocks in low usage rate(because of expiration or deletion), then returns the freed block to Free Block Pool.
+4. For optimization, update operation will reuse orinial space if possible, and stripped write/read lock is leveraged for better concurrency.
 
 
 ## How to Use
